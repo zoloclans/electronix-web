@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7f8">
+  <title>Electronix</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="header">
+    <div class="brand-block">
+      <div class="brand">Electronix</div>
+      <div class="brand-sub">Componentes electrónicos</div>
+    </div>
+
+    <button class="cart-top" onclick="openCart()">🛒 Carrito <span id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main>
+  <div class="delivery-banner">
+    <div class="delivery-left">
+      <div class="delivery-icon">🚚</div>
+      <div class="delivery-text">
+        <strong>Delivery gratis</strong>
+        <span>UPC Sede Monterrico y San Miguel</span>
+      </div>
+    </div>
+    <div class="delivery-badge">Coordinación por WhatsApp</div>
+  </div>
+
+  <div id="productos" class="productos"></div>
+</main>
+
+<footer>Electronix · Catálogo de componentes electrónicos</footer>
+
+<div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+<div id="buyModal" class="modal">
+  <div class="modal-head">
+    <div>
+      <h2 id="buyName">Producto</h2>
+      <div class="modal-sub">Confirma cantidad, precio y total antes de enviar el pedido.</div>
+    </div>
+    <button class="close" onclick="closeBuy()">×</button>
+  </div>
+
+  <div class="buy-summary">
+    <div class="buy-line"><span>Cantidad</span><strong id="buyQtyText">1</strong></div>
+    <div class="buy-line"><span>Precio por unidad</span><strong id="buyUnitPrice">S/ 0.00</strong></div>
+    <div class="buy-total"><span>Total</span><span id="buyTotal">S/ 0.00</span></div>
+  </div>
+
+  <div id="buyMessage" class="message"></div>
+
+  <div class="modal-actions">
+    <button class="btn add" onclick="addCurrentToCart()">Añadir al carrito</button>
+    <button class="btn whatsapp" onclick="sendCurrentWhatsApp()">Enviar por WhatsApp</button>
+  </div>
+</div>
+
+<aside id="drawer" class="drawer">
+  <div class="drawer-head">
+    <h3>Carrito</h3>
+    <button class="close" onclick="closeCart()">×</button>
+  </div>
+  <div id="cartList" class="cart-list"></div>
+  <div class="drawer-foot">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">S/ 0.00</span>
+    </div>
+    <button class="checkout" onclick="checkoutCart()">Enviar pedido por WhatsApp</button>
+  </div>
+</aside>
+
+<div id="gallery" class="gallery">
+  <div class="gallery-box">
+    <div class="gallery-head">
+      <div id="galleryTitle" class="gallery-title"></div>
+      <button class="gallery-close" onclick="closeGallery()">×</button>
+    </div>
+    <div class="gallery-main-wrap">
+      <button class="gallery-nav gallery-prev" onclick="moveGallery(-1)">‹</button>
+      <img id="galleryMain" class="gallery-main" alt="">
+      <button class="gallery-nav gallery-next" onclick="moveGallery(1)">›</button>
+    </div>
+    <div id="thumbs" class="thumbs"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

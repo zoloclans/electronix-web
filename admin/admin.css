@@ -1,0 +1,40 @@
+:root{--bg:#f6f7f8;--card:#fff;--line:#e1e4e8;--text:#1f2328;--muted:#6b7280;--green:#198754;--blue:#2563eb;--red:#b42318}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{font-family:"Segoe UI Variable","Segoe UI",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.login-shell{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login-card{width:min(92vw,380px);background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 18px 55px rgba(0,0,0,.08)}
+.admin-brand{font-size:26px;font-weight:700}.admin-sub{font-size:12px;color:var(--muted);margin-top:2px;margin-bottom:20px}
+label{display:block;font-size:12px;font-weight:650;margin:12px 0 5px}
+input{width:100%;border:1px solid #d6dbe1;border-radius:8px;padding:10px 11px;background:#fff;outline:none}
+input:focus{border-color:#94b7ff;box-shadow:0 0 0 3px #eef4ff}
+.primary{border:0;border-radius:8px;padding:10px 14px;background:var(--green);color:#fff;font-weight:680}
+.login-card .primary{width:100%;margin-top:16px}
+.msg{font-size:11px;color:var(--muted);min-height:16px;margin-top:8px}.msg.error{color:var(--red)}.msg.ok{color:var(--green)}
+.admin-app header{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.header-actions{display:flex;gap:8px}.ghost,.small-btn,.upload-btn{border:1px solid #d8dde3;background:#fff;color:#2c3137;border-radius:8px;padding:8px 10px;font-size:11px;font-weight:650;text-decoration:none}
+.admin-app main{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 68px)}
+.products-panel{background:#fff;border-right:1px solid var(--line);padding:16px;overflow:auto}
+.panel-head,.section-row,.editor-top,.savebar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.panel-head h2,.editor h1,.section-box h3{margin:0}.panel-head h2{font-size:18px}.panel-head p,.editor-top p,.section-box p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}
+.product-list{margin-top:14px;display:grid;gap:8px}
+.product-item{border:1px solid var(--line);border-radius:9px;padding:10px;background:#fff;cursor:pointer}
+.product-item.active{border-color:#9bbcff;background:#f4f7ff}.product-item strong{display:block;font-size:12px}.product-meta{display:flex;justify-content:space-between;margin-top:5px;font-size:10px;color:var(--muted)}
+.editor-panel{padding:20px;overflow:auto}.empty-editor{height:70vh;display:grid;place-items:center;color:var(--muted);font-size:13px}
+.editor{max-width:900px;margin:auto}.editor h1{font-size:22px}
+.switch-row{display:flex;align-items:center;gap:7px;margin:0}.switch-row input{width:auto}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.field.full{grid-column:1/-1}
+.section-box{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:14px}
+.tier-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin-top:9px}.tier-row label{margin-top:0}
+.danger-btn{border:1px solid #f2c9c5;background:#fff;color:var(--red);border-radius:8px;padding:10px}
+.images-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+.image-card{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}.image-card img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.image-actions{padding:6px;display:grid;gap:5px}.image-actions button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:6px;font-size:9px}.image-actions .remove-image{color:var(--red)}
+.image-card.primary-image{outline:2px solid #9bbcff}.primary-badge{font-size:9px;color:var(--blue);padding:5px 6px;background:#eef4ff}
+.savebar{align-items:center;margin-top:16px;padding-bottom:40px}
+@media(max-width:760px){
+  .admin-app header{height:auto;padding:12px;align-items:flex-start}.admin-app main{grid-template-columns:1fr;display:block}
+  .products-panel{border-right:0;border-bottom:1px solid var(--line);padding:12px}.product-list{grid-template-columns:repeat(2,1fr)}
+  .editor-panel{padding:12px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.images-grid{grid-template-columns:repeat(2,1fr)}
+  .editor-top{align-items:flex-start}.section-row{align-items:flex-start}.savebar{position:sticky;bottom:0;background:rgba(246,247,248,.95);padding:10px 0}
+}

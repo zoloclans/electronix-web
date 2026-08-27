@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7f8">
+  <title>Electronix Admin</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div id="loginView" class="login-shell">
+  <form id="loginForm" class="login-card">
+    <div class="admin-brand">Electronix</div>
+    <div class="admin-sub">Panel de administración</div>
+
+    <label>Correo</label>
+    <input id="email" type="email" autocomplete="username" required>
+
+    <label>Contraseña</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+
+    <button type="submit" class="primary">Ingresar</button>
+    <div id="loginMsg" class="msg"></div>
+  </form>
+</div>
+
+<div id="adminView" class="admin-app hidden">
+  <header>
+    <div>
+      <div class="admin-brand">Electronix</div>
+      <div class="admin-sub">Administración de catálogo</div>
+    </div>
+    <div class="header-actions">
+      <a href="../" target="_blank" class="ghost">Ver catálogo</a>
+      <button class="ghost" onclick="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    <aside class="products-panel">
+      <div class="panel-head">
+        <div>
+          <h2>Productos</h2>
+          <p>Stock, precios y fotos.</p>
+        </div>
+        <button class="small-btn" onclick="newProduct()">+ Nuevo</button>
+      </div>
+      <div id="productList" class="product-list"></div>
+    </aside>
+
+    <section class="editor-panel">
+      <div id="emptyEditor" class="empty-editor">Selecciona un producto para editarlo.</div>
+
+      <form id="editorForm" class="editor hidden">
+        <div class="editor-top">
+          <div>
+            <h1 id="editorTitle">Producto</h1>
+            <p>Los cambios aparecerán en el catálogo sin volver a desplegar la web.</p>
+          </div>
+          <label class="switch-row">
+            <input id="active" type="checkbox">
+            <span>Visible</span>
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label>Nombre</label>
+            <input id="name" required>
+          </div>
+
+          <div class="field">
+            <label>Stock actual</label>
+            <input id="stock" type="number" min="0" required>
+          </div>
+
+          <div class="field">
+            <label>Orden</label>
+            <input id="displayOrder" type="number" min="0" required>
+          </div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-row">
+            <div>
+              <h3>Precios por cantidad</h3>
+              <p>Ejemplo: desde 1 = S/139, desde 6 = S/134, desde 12 = S/130.</p>
+            </div>
+            <button type="button" class="small-btn" onclick="addTier()">+ Tramo</button>
+          </div>
+          <div id="tiersEditor"></div>
+        </div>
+
+        <div class="section-box">
+          <div class="section-row">
+            <div>
+              <h3>Fotos</h3>
+              <p>La primera foto es la principal. Puedes subir varias.</p>
+            </div>
+            <label class="upload-btn">
+              + Subir fotos
+              <input id="imageInput" type="file" accept="image/*" multiple hidden>
+            </label>
+          </div>
+          <div id="uploadStatus" class="msg"></div>
+          <div id="imagesEditor" class="images-grid"></div>
+        </div>
+
+        <div class="savebar">
+          <div id="saveMsg" class="msg"></div>
+          <button type="submit" class="primary">Guardar cambios</button>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
