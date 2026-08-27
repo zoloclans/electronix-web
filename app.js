@@ -95,8 +95,8 @@ function stockClass(stock){
   return "stock-ok";
 }
 function stockText(stock){
-  if(stock<=0) return "Agotado";
-  return `${stock} unidades`;
+  if(stock<=0) return "Stock: Agotado";
+  return `Stock: ${stock} unidades`;
 }
 function mainImage(product){
   return product.images?.[0] || placeholder(product.name);
