@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f4f6f8">
+<title>Electronix Admin</title>
+
+<style>
+:root{
+  --bg:#f4f6f8;
+  --card:#fff;
+  --line:#e2e6ea;
+  --text:#20242a;
+  --muted:#717983;
+  --green:#198754;
+  --green-soft:#eaf7ef;
+  --blue:#2563eb;
+  --blue-soft:#eef4ff;
+  --orange:#b7791f;
+  --orange-soft:#fff6df;
+  --red:#b42318;
+  --red-soft:#fdeeed;
+  --dark:#24272c;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  font-family:"Segoe UI Variable","Segoe UI",Tahoma,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+.login-shell{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:20px;
+}
+.login-card{
+  width:min(92vw,390px);
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 20px 70px rgba(25,31,40,.10);
+}
+.login-brand{
+  font-size:30px;
+  font-weight:720;
+  letter-spacing:-.6px;
+}
+.login-sub{
+  margin-top:2px;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:20px;
+}
+label{
+  display:block;
+  font-size:12px;
+  font-weight:650;
+  margin:12px 0 6px;
+}
+input{
+  width:100%;
+  border:1px solid #d4d9df;
+  border-radius:9px;
+  padding:10px 11px;
+  background:#fff;
+  outline:none;
+}
+input:focus{
+  border-color:#9bbcff;
+  box-shadow:0 0 0 3px #eef4ff;
+}
+.primary{
+  border:0;
+  border-radius:9px;
+  background:var(--green);
+  color:#fff;
+  padding:11px 14px;
+  font-weight:680;
+}
+.login-card .primary{
+  width:100%;
+  margin-top:17px;
+}
+.msg{
+  min-height:16px;
+  margin-top:8px;
+  font-size:11px;
+  color:var(--muted);
+}
+.msg.ok{color:var(--green)}
+.msg.error{color:var(--red)}
+
+.app{
+  min-height:100vh;
+}
+.topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:0 20px;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.brand{
+  font-size:25px;
+  font-weight:720;
+  letter-spacing:-.45px;
+}
+.brand-sub{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:2px;
+}
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.btn{
+  border:1px solid #d6dbe1;
+  border-radius:8px;
+  background:#fff;
+  color:#2c3137;
+  padding:9px 11px;
+  font-size:11px;
+  font-weight:650;
+}
+.btn.blue{
+  background:var(--blue);
+  border-color:var(--blue);
+  color:#fff;
+}
+.btn.green{
+  background:var(--green);
+  border-color:var(--green);
+  color:#fff;
+}
+.btn.red{
+  color:var(--red);
+  border-color:#efc8c4;
+  background:#fff;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:290px minmax(0,1fr);
+  min-height:calc(100vh - 70px);
+}
+.sidebar{
+  background:#fff;
+  border-right:1px solid var(--line);
+  padding:15px;
+}
+.side-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+}
+.side-head h2{
+  margin:0;
+  font-size:17px;
+}
+.side-head p{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:10px;
+}
+.products{
+  display:grid;
+  gap:8px;
+  margin-top:13px;
+}
+.product-row{
+  width:100%;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:10px;
+  padding:10px;
+  text-align:left;
+}
+.product-row:hover{
+  border-color:#c9d5e5;
+}
+.product-row.active{
+  border-color:#91b4fa;
+  background:#f4f7ff;
+}
+.product-name{
+  font-size:12px;
+  font-weight:680;
+}
+.product-meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin-top:6px;
+}
+.stock-chip{
+  display:inline-flex;
+  border-radius:999px;
+  padding:4px 7px;
+  font-size:9px;
+  font-weight:680;
+}
+.stock-ok{background:var(--green-soft);color:var(--green)}
+.stock-low{background:var(--orange-soft);color:var(--orange)}
+.stock-out{background:var(--red-soft);color:var(--red)}
+.visibility{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.workspace{
+  padding:18px;
+}
+.blank{
+  min-height:70vh;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:var(--muted);
+}
+.blank strong{
+  color:var(--text);
+  display:block;
+  font-size:15px;
+  margin-bottom:5px;
+}
+.editor-grid{
+  max-width:1120px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 300px;
+  gap:16px;
+}
+.editor-main{
+  min-width:0;
+}
+.editor-heading{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:13px;
+}
+.editor-heading h1{
+  margin:0;
+  font-size:22px;
+}
+.editor-heading p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:11px;
+}
+.visible-toggle{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  white-space:nowrap;
+  font-size:11px;
+  font-weight:650;
+  margin:2px 0 0;
+}
+.visible-toggle input{
+  width:auto;
+}
+
+.box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+}
+.box-title{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.box-title h3{
+  margin:0;
+  font-size:14px;
+}
+.box-title p{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.4;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.field.full{grid-column:1/-1}
+.field label{margin-top:0}
+
+.stock-control{
+  display:grid;
+  grid-template-columns:42px 1fr 42px;
+  border:1px solid #d4d9df;
+  border-radius:9px;
+  overflow:hidden;
+  height:42px;
+}
+.stock-control button{
+  border:0;
+  background:#f6f7f8;
+  font-size:20px;
+}
+.stock-control input{
+  border:0;
+  border-radius:0;
+  text-align:center;
+  box-shadow:none!important;
+  font-size:15px;
+  font-weight:680;
+}
+
+.tier-row{
+  display:grid;
+  grid-template-columns:1fr 1fr auto;
+  gap:8px;
+  align-items:end;
+  padding:9px;
+  margin-top:7px;
+  background:#fafbfc;
+  border:1px solid #e8ebee;
+  border-radius:9px;
+}
+.tier-row label{margin-top:0}
+.remove-tier{
+  width:38px;
+  height:38px;
+  border:1px solid #efcbc8;
+  background:#fff;
+  color:var(--red);
+  border-radius:8px;
+  font-size:17px;
+}
+
+.upload-area{
+  border:1px dashed #bfc6cf;
+  border-radius:10px;
+  padding:15px;
+  background:#fafbfc;
+  text-align:center;
+}
+.upload-area strong{
+  display:block;
+  font-size:12px;
+}
+.upload-area span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+}
+.upload-label{
+  display:inline-block;
+  margin-top:10px;
+  border:1px solid #cfd5dc;
+  background:#fff;
+  padding:8px 10px;
+  border-radius:8px;
+  font-size:10px;
+  font-weight:650;
+  cursor:pointer;
+}
+.images{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.image-card{
+  border:1px solid var(--line);
+  border-radius:9px;
+  overflow:hidden;
+  background:#fff;
+}
+.image-card.primary-image{
+  outline:2px solid #91b4fa;
+}
+.image-card img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  display:block;
+  background:#eef0f2;
+}
+.primary-label{
+  padding:5px 6px;
+  background:var(--blue-soft);
+  color:var(--blue);
+  font-size:9px;
+  font-weight:650;
+}
+.image-actions{
+  padding:6px;
+  display:grid;
+  gap:4px;
+}
+.image-actions button{
+  border:1px solid #dde1e6;
+  background:#fff;
+  border-radius:6px;
+  padding:6px;
+  font-size:9px;
+}
+.image-actions .delete-image{
+  color:var(--red);
+}
+
+.savebar{
+  position:sticky;
+  bottom:10px;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:10px;
+  box-shadow:0 12px 34px rgba(27,33,40,.10);
+}
+
+.preview-panel{
+  position:sticky;
+  top:88px;
+  align-self:start;
+}
+.preview-title{
+  font-size:12px;
+  font-weight:680;
+  margin-bottom:8px;
+}
+.preview-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:11px;
+  overflow:hidden;
+}
+.preview-photo{
+  height:220px;
+  background:#eceff2;
+}
+.preview-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.preview-body{padding:13px}
+.preview-name-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:7px;
+}
+.preview-name{
+  font-size:14px;
+  font-weight:680;
+}
+.preview-stock{
+  border-radius:999px;
+  padding:5px 7px;
+  font-size:9px;
+  font-weight:680;
+}
+.preview-price{
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid #eceff1;
+  font-size:22px;
+  font-weight:720;
+}
+.preview-unit{
+  font-size:9px;
+  color:var(--muted);
+}
+.preview-tiers{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-top:10px;
+  border:1px solid #e4e7ea;
+  border-radius:7px;
+  overflow:hidden;
+}
+.preview-tier{
+  text-align:center;
+  padding:6px 2px;
+  font-size:8px;
+  color:#666;
+  background:#fafafa;
+  border-right:1px solid #e8eaed;
+}
+.preview-tier:last-child{border-right:0}
+.preview-tier b{
+  display:block;
+  color:#222;
+  margin-top:2px;
+  font-size:9px;
+}
+.preview-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  margin-top:9px;
+}
+.preview-buttons button{
+  border-radius:7px;
+  padding:8px 4px;
+  font-size:9px;
+  font-weight:650;
+}
+.preview-add{
+  border:1px solid #d7dbe0;
+  background:#f7f8fa;
+}
+.preview-buy{
+  border:1px solid var(--green);
+  background:var(--green);
+  color:#fff;
+}
+.preview-note{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.4;
+}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:240px minmax(0,1fr)}
+  .editor-grid{grid-template-columns:1fr}
+  .preview-panel{position:static}
+  .preview-card{max-width:380px}
+}
+@media(max-width:650px){
+  .topbar{
+    height:auto;
+    min-height:64px;
+    padding:10px;
+  }
+  .brand{font-size:21px}
+  .brand-sub{font-size:9px}
+  .top-actions .btn:first-child{display:none}
+  .layout{display:block}
+  .sidebar{
+    border-right:0;
+    border-bottom:1px solid var(--line);
+    padding:10px;
+  }
+  .products{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .workspace{padding:10px}
+  .editor-heading h1{font-size:19px}
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .images{grid-template-columns:repeat(2,1fr)}
+  .tier-row{grid-template-columns:1fr 1fr auto}
+  .preview-card{max-width:none}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<section id="loginView" class="login-shell">
+  <form id="loginForm" class="login-card">
+    <div class="login-brand">Electronix</div>
+    <div class="login-sub">Panel de administración</div>
+
+    <label>Correo</label>
+    <input id="email" type="email" autocomplete="username" required>
+
+    <label>Contraseña</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+
+    <button class="primary" type="submit">Ingresar</button>
+    <div id="loginMsg" class="msg"></div>
+  </form>
+</section>
+
+<!-- ADMIN -->
+<section id="adminView" class="app hidden">
+  <header class="topbar">
+    <div>
+      <div class="brand">Electronix</div>
+      <div class="brand-sub">Administración del catálogo</div>
+    </div>
+
+    <div class="top-actions">
+      <a class="btn" href="../" target="_blank">Ver página pública</a>
+      <button class="btn" onclick="logout()">Salir</button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="side-head">
+        <div>
+          <h2>Productos</h2>
+          <p>Selecciona uno para modificarlo.</p>
+        </div>
+        <button class="btn blue" onclick="newProduct()">+ Nuevo</button>
+      </div>
+
+      <div id="productList" class="products"></div>
+    </aside>
+
+    <main class="workspace">
+
+      <div id="blankView" class="blank">
+        <div>
+          <strong>Selecciona un producto</strong>
+          Cambia stock, precios, fotos y visibilidad desde aquí.
+        </div>
+      </div>
+
+      <div id="editorView" class="editor-grid hidden">
+
+        <section class="editor-main">
+
+          <div class="editor-heading">
+            <div>
+              <h1 id="editorTitle">Producto</h1>
+              <p>Al guardar, la página pública se actualiza automáticamente.</p>
+            </div>
+
+            <label class="visible-toggle">
+              <input id="active" type="checkbox">
+              Visible en catálogo
+            </label>
+          </div>
+
+          <div class="box">
+            <div class="box-title">
+              <div>
+                <h3>Información principal</h3>
+                <p>Nombre y stock que verá el cliente.</p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label>Nombre del producto</label>
+                <input id="name">
+              </div>
+
+              <div class="field">
+                <label>Stock actual</label>
+                <div class="stock-control">
+                  <button type="button" onclick="changeStock(-1)">−</button>
+                  <input id="stock" type="number" min="0" value="0">
+                  <button type="button" onclick="changeStock(1)">+</button>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Orden en la página</label>
+                <input id="displayOrder" type="number" min="0" value="0">
+              </div>
+            </div>
+          </div>
+
+          <div class="box">
+            <div class="box-title">
+              <div>
+                <h3>Precios por cantidad</h3>
+                <p>El precio por unidad cambia automáticamente según la cantidad seleccionada.</p>
+              </div>
+              <button class="btn blue" type="button" onclick="addTier()">+ Agregar tramo</button>
+            </div>
+
+            <div id="tiersEditor"></div>
+          </div>
+
+          <div class="box">
+            <div class="box-title">
+              <div>
+                <h3>Fotos del producto</h3>
+                <p>La primera imagen será la foto principal del catálogo.</p>
+              </div>
+            </div>
+
+            <div class="upload-area">
+              <strong>Subir imágenes</strong>
+              <span>Puedes seleccionar varias fotos al mismo tiempo.</span>
+
+              <label class="upload-label">
+                Elegir fotos
+                <input id="imageInput" type="file" accept="image/*" multiple hidden>
+              </label>
+            </div>
+
+            <div id="uploadMsg" class="msg"></div>
+            <div id="imagesEditor" class="images"></div>
+          </div>
+
+          <div class="savebar">
+            <div id="saveMsg" class="msg"></div>
+            <button class="btn green" onclick="saveProduct()">Guardar cambios</button>
+          </div>
+
+        </section>
+
+        <aside class="preview-panel">
+          <div class="preview-title">Vista previa del catálogo</div>
+
+          <div class="preview-card">
+            <div class="preview-photo">
+              <img id="previewImage" alt="">
+            </div>
+
+            <div class="preview-body">
+              <div class="preview-name-row">
+                <div id="previewName" class="preview-name">Producto</div>
+                <div id="previewStock" class="preview-stock stock-ok">0 unidades</div>
+              </div>
+
+              <div id="previewPrice" class="preview-price">S/ 0.00</div>
+              <div class="preview-unit">por unidad</div>
+
+              <div id="previewTiers" class="preview-tiers"></div>
+
+              <div class="preview-buttons">
+                <button class="preview-add">Añadir al carrito</button>
+                <button class="preview-buy">Comprar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-note">
+            Esta vista es referencial. Los cambios aparecen en la página pública después de presionar <b>Guardar cambios</b>.
+          </div>
+        </aside>
+
+      </div>
+    </main>
+
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+
+<script>
+const cfg = window.ELECTRONIX_CONFIG;
+
+const configured =
+  cfg &&
+  cfg.SUPABASE_URL &&
+  !cfg.SUPABASE_URL.startsWith("PON_AQUI") &&
+  cfg.SUPABASE_ANON_KEY &&
+  !cfg.SUPABASE_ANON_KEY.startsWith("PON_AQUI");
+
+const db = configured
+  ? window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY)
+  : null;
+
+let products = [];
+let selected = null;
+let draftTiers = [];
+let draftImages = [];
+
+const $ = id => document.getElementById(id);
+
+function money(v){
+  return "S/ " + Number(v || 0).toFixed(2);
+}
+
+function stockClass(stock){
+  stock = Number(stock || 0);
+  if(stock <= 0) return "stock-out";
+  if(stock <= 5) return "stock-low";
+  return "stock-ok";
+}
+
+function defaultPlaceholder(name){
+  const text = encodeURIComponent(name || "Producto");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800">
+    <rect width="100%" height="100%" fill="#eceff2"/>
+    <rect x="245" y="245" width="310" height="310" rx="25" fill="#414750"/>
+    <rect x="300" y="300" width="200" height="200" rx="9" fill="#181a1e"/>
+    <text x="400" y="650" text-anchor="middle" font-family="Segoe UI,Arial" font-size="38" font-weight="600" fill="#4a5058">${text}</text>
+  </svg>`;
+  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
+
+async function init(){
+  if(!configured){
+    $("loginMsg").textContent = "Falta completar config.js con los datos de Supabase.";
+    $("loginMsg").className = "msg error";
+    return;
+  }
+
+  const {data:{session}} = await db.auth.getSession();
+
+  if(session){
+    showAdmin();
+  }
+}
+
+$("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  if(!db) return;
+
+  $("loginMsg").textContent = "Ingresando...";
+  $("loginMsg").className = "msg";
+
+  const {error} = await db.auth.signInWithPassword({
+    email:$("email").value.trim(),
+    password:$("password").value
+  });
+
+  if(error){
+    $("loginMsg").textContent = error.message;
+    $("loginMsg").className = "msg error";
+    return;
+  }
+
+  $("loginMsg").textContent = "";
+  showAdmin();
+});
+
+async function logout(){
+  if(db) await db.auth.signOut();
+  location.reload();
+}
+
+async function showAdmin(){
+  $("loginView").classList.add("hidden");
+  $("adminView").classList.remove("hidden");
+  await loadProducts();
+}
+
+async function loadProducts(){
+  const {data,error} = await db
+    .from("products")
+    .select("*")
+    .order("display_order",{ascending:true});
+
+  if(error){
+    alert("Error cargando productos: " + error.message);
+    return;
+  }
+
+  products = data || [];
+  renderProductList();
+
+  if(selected){
+    const fresh = products.find(p=>p.id===selected.id);
+    if(fresh){
+      selectProduct(fresh.id);
+    }
+  }
+}
+
+function renderProductList(){
+  $("productList").innerHTML = products.map(p => `
+    <button class="product-row ${selected?.id===p.id ? "active" : ""}" onclick="selectProduct('${p.id}')">
+      <div class="product-name">${p.name}</div>
+
+      <div class="product-meta">
+        <span class="stock-chip ${stockClass(p.stock)}">
+          ${Number(p.stock || 0)} unidades
+        </span>
+
+        <span class="visibility">
+          ${p.active ? "Visible" : "Oculto"}
+        </span>
+      </div>
+    </button>
+  `).join("");
+}
+
+function selectProduct(id){
+  selected = products.find(p=>p.id===id);
+
+  if(!selected) return;
+
+  draftTiers = Array.isArray(selected.tiers)
+    ? JSON.parse(JSON.stringify(selected.tiers))
+    : [];
+
+  draftImages = Array.isArray(selected.images)
+    ? [...selected.images]
+    : [];
+
+  $("blankView").classList.add("hidden");
+  $("editorView").classList.remove("hidden");
+
+  $("editorTitle").textContent = selected.name;
+  $("name").value = selected.name;
+  $("stock").value = Number(selected.stock || 0);
+  $("displayOrder").value = Number(selected.display_order || 0);
+  $("active").checked = !!selected.active;
+
+  renderTiers();
+  renderImages();
+  renderProductList();
+  updatePreview();
+}
+
+function changeStock(step){
+  const input = $("stock");
+  input.value = Math.max(0,(parseInt(input.value)||0)+step);
+  updatePreview();
+}
+
+$("name").addEventListener("input",updatePreview);
+$("stock").addEventListener("input",updatePreview);
+$("active").addEventListener("change",updatePreview);
+
+function renderTiers(){
+  $("tiersEditor").innerHTML = draftTiers.map((t,i)=>`
+    <div class="tier-row">
+
+      <div>
+        <label>Desde</label>
+        <input
+          type="number"
+          min="1"
+          value="${Number(t.min || 1)}"
+          oninput="draftTiers[${i}].min=Number(this.value);updatePreview()"
+        >
+      </div>
+
+      <div>
+        <label>Precio por unidad (S/)</label>
+        <input
+          type="number"
+          min="0"
+          step="0.01"
+          value="${Number(t.price || 0)}"
+          oninput="draftTiers[${i}].price=Number(this.value);updatePreview()"
+        >
+      </div>
+
+      <button
+        type="button"
+        class="remove-tier"
+        title="Eliminar tramo"
+        onclick="removeTier(${i})"
+      >×</button>
+
+    </div>
+  `).join("");
+
+  updatePreview();
+}
+
+function addTier(){
+  const last = draftTiers[draftTiers.length-1];
+
+  draftTiers.push({
+    min:last ? Number(last.min)+1 : 1,
+    price:last ? Number(last.price) : 0
+  });
+
+  renderTiers();
+}
+
+function removeTier(i){
+  if(draftTiers.length <= 1){
+    alert("Debe existir al menos un precio.");
+    return;
+  }
+
+  draftTiers.splice(i,1);
+  renderTiers();
+}
+
+function renderImages(){
+  $("imagesEditor").innerHTML = draftImages.map((url,i)=>`
+    <div class="image-card ${i===0 ? "primary-image" : ""}">
+
+      <img src="${url}" alt="Imagen">
+
+      ${i===0 ? '<div class="primary-label">Foto principal</div>' : ''}
+
+      <div class="image-actions">
+
+        ${i!==0 ? `
+          <button type="button" onclick="makePrimary(${i})">
+            Usar como principal
+          </button>
+        ` : ''}
+
+        <button
+          type="button"
+          class="delete-image"
+          onclick="removeImage(${i})"
+        >
+          Quitar
+        </button>
+
+      </div>
+    </div>
+  `).join("");
+
+  updatePreview();
+}
+
+function makePrimary(i){
+  const [url] = draftImages.splice(i,1);
+  draftImages.unshift(url);
+  renderImages();
+}
+
+function removeImage(i){
+  draftImages.splice(i,1);
+  renderImages();
+}
+
+$("imageInput").addEventListener("change", async e => {
+  if(!selected || !e.target.files.length) return;
+
+  $("uploadMsg").textContent = "Subiendo imágenes...";
+  $("uploadMsg").className = "msg";
+
+  for(const file of e.target.files){
+
+    const safeName = file.name
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]/g,"-");
+
+    const path =
+      `${selected.slug}/${Date.now()}-${Math.random().toString(36).slice(2,7)}-${safeName}`;
+
+    const {error} = await db.storage
+      .from("product-images")
+      .upload(path,file,{
+        cacheControl:"3600",
+        upsert:false
+      });
+
+    if(error){
+      $("uploadMsg").textContent = error.message;
+      $("uploadMsg").className = "msg error";
+      return;
+    }
+
+    const {data} = db.storage
+      .from("product-images")
+      .getPublicUrl(path);
+
+    draftImages.push(data.publicUrl);
+  }
+
+  $("uploadMsg").textContent = "Fotos subidas. Presiona Guardar cambios.";
+  $("uploadMsg").className = "msg ok";
+
+  e.target.value = "";
+  renderImages();
+});
+
+function updatePreview(){
+  if(!selected) return;
+
+  const name = $("name").value.trim() || "Producto";
+  const stock = Number($("stock").value || 0);
+
+  $("previewName").textContent = name;
+
+  $("previewStock").textContent =
+    stock <= 0 ? "Agotado" : `${stock} unidades`;
+
+  $("previewStock").className =
+    `preview-stock ${stockClass(stock)}`;
+
+  const sorted = [...draftTiers]
+    .map(t=>({
+      min:Number(t.min || 1),
+      price:Number(t.price || 0)
+    }))
+    .sort((a,b)=>a.min-b.min);
+
+  const firstPrice = sorted.length
+    ? sorted[0].price
+    : 0;
+
+  $("previewPrice").textContent = money(firstPrice);
+
+  $("previewTiers").innerHTML = sorted.map((t,i)=>`
+    <div class="preview-tier">
+      ${i===sorted.length-1 ? `x${t.min}+` : `x${t.min}`}
+      <b>${money(t.price)}</b>
+    </div>
+  `).join("");
+
+  $("previewImage").src =
+    draftImages[0] || defaultPlaceholder(name);
+}
+
+async function saveProduct(){
+  if(!selected) return;
+
+  const name = $("name").value.trim();
+
+  if(!name){
+    $("saveMsg").textContent = "Escribe el nombre del producto.";
+    $("saveMsg").className = "msg error";
+    return;
+  }
+
+  const tiers = [...draftTiers]
+    .map(t=>({
+      min:Number(t.min),
+      price:Number(t.price)
+    }))
+    .filter(t=>t.min>=1 && t.price>=0)
+    .sort((a,b)=>a.min-b.min);
+
+  if(!tiers.length){
+    $("saveMsg").textContent = "Debe existir al menos un precio.";
+    $("saveMsg").className = "msg error";
+    return;
+  }
+
+  $("saveMsg").textContent = "Guardando...";
+  $("saveMsg").className = "msg";
+
+  const payload = {
+    name,
+    stock:Math.max(0,Number($("stock").value || 0)),
+    display_order:Math.max(0,Number($("displayOrder").value || 0)),
+    active:$("active").checked,
+    tiers,
+    images:draftImages,
+    updated_at:new Date().toISOString()
+  };
+
+  const {error} = await db
+    .from("products")
+    .update(payload)
+    .eq("id",selected.id);
+
+  if(error){
+    $("saveMsg").textContent = error.message;
+    $("saveMsg").className = "msg error";
+    return;
+  }
+
+  $("saveMsg").textContent = "✓ Cambios guardados y publicados.";
+  $("saveMsg").className = "msg ok";
+
+  await loadProducts();
+}
+
+function slugify(text){
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-|-$/g,"");
+}
+
+async function newProduct(){
+  const name = prompt("Nombre del nuevo producto:");
+
+  if(!name) return;
+
+  const slug =
+    slugify(name) + "-" + Date.now().toString().slice(-5);
+
+  const {data,error} = await db
+    .from("products")
+    .insert({
+      slug,
+      name:name.trim(),
+      stock:0,
+      tiers:[{min:1,price:0}],
+      images:[],
+      active:false,
+      display_order:products.length+1
+    })
+    .select()
+    .single();
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  await loadProducts();
+  selectProduct(data.id);
+}
+
+init();
+</script>
+</body>
+</html>
