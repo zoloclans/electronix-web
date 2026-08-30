@@ -930,6 +930,7 @@ function selectProduct(id){
   $("editorTitle").textContent = selected.name;
   $("name").value = selected.name;
   $("stock").value = Number(selected.stock || 0);
+  $("restock").value = selected.restock || "";
   $("displayOrder").value = Number(selected.display_order || 0);
   $("active").checked = !!selected.active;
 
