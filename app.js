@@ -46,6 +46,7 @@ function normalizeProduct(p){
   return {
     ...p,
     stock:Number(p.stock || 0),
+    restock:String(p.restock || "").trim(),
     tiers:tiers.map(t=>({min:Number(t.min),price:Number(t.price)})).sort((a,b)=>a.min-b.min),
     images
   };
@@ -98,6 +99,12 @@ function stockText(stock){
   if(stock<=0) return "Stock: Agotado";
   return `Stock: ${stock} unidades`;
 }
+
+function restockText(product){
+  if(product.stock > 0 || !product.restock) return "";
+  return `<div class="restock-message">📦 ${product.restock}</div>`;
+}
+
 function mainImage(product){
   return product.images?.[0] || placeholder(product.name);
 }
@@ -119,6 +126,8 @@ function renderProducts(){
           <div class="nombre">${product.name}</div>
           <div class="stock-badge ${stockClass(product.stock)}">${stockText(product.stock)}</div>
         </div>
+
+        ${restockText(product)}
 
         <div class="price-row">
           <div>
@@ -145,7 +154,7 @@ function renderProducts(){
         </div>
 
         <div class="actions">
-          <button class="btn add" onclick="addToCart('${product.id}')">Añadir al carrito</button>
+          <button class="btn add" onclick="addToCart('${product.id}')" ${product.stock<=0?"disabled":""}>Añadir al carrito</button>
           <button class="btn buy" onclick="openBuy('${product.id}')" ${product.stock<=0?"disabled":""}>Comprar</button>
         </div>
       </div>
