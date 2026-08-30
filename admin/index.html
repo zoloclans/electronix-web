@@ -30,7 +30,7 @@ body{
   background:var(--bg);
   color:var(--text);
 }
-button,input,select{font:inherit}
+button,input{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
 
@@ -65,8 +65,7 @@ label{
   font-weight:650;
   margin:12px 0 6px;
 }
-input,
-select{
+input{
   width:100%;
   border:1px solid #d4d9df;
   border-radius:9px;
@@ -74,8 +73,7 @@ select{
   background:#fff;
   outline:none;
 }
-input:focus,
-select:focus{
+input:focus{
   border-color:#9bbcff;
   box-shadow:0 0 0 3px #eef4ff;
 }
@@ -682,18 +680,6 @@ select:focus{
               </div>
 
               <div class="field">
-                <label>Próxima disponibilidad</label>
-                <select id="restock">
-                  <option value="">Sin información</option>
-                  <option value="Disponible nuevamente en aprox. 1 semana">1 semana</option>
-                  <option value="Disponible nuevamente en aprox. 2 semanas">2 semanas</option>
-                  <option value="Disponible nuevamente en aprox. 3 semanas">3 semanas</option>
-                  <option value="Disponible nuevamente en aprox. 4 semanas">4 semanas</option>
-                  <option value="Próximamente">Próximamente</option>
-                </select>
-              </div>
-
-              <div class="field">
                 <label>Orden en la página</label>
                 <input id="displayOrder" type="number" min="0" value="0">
               </div>
@@ -931,7 +917,6 @@ function selectProduct(id){
   $("editorTitle").textContent = selected.name;
   $("name").value = selected.name;
   $("stock").value = Number(selected.stock || 0);
-  $("restock").value = selected.restock || "";
   $("displayOrder").value = Number(selected.display_order || 0);
   $("active").checked = !!selected.active;
 
@@ -949,7 +934,6 @@ function changeStock(step){
 
 $("name").addEventListener("input",updatePreview);
 $("stock").addEventListener("input",updatePreview);
-$("restock").addEventListener("change",updatePreview);
 $("active").addEventListener("change",updatePreview);
 
 function renderTiers(){
@@ -1164,7 +1148,6 @@ async function saveProduct(){
   const payload = {
     name,
     stock:Math.max(0,Number($("stock").value || 0)),
-    restock:$("restock").value,
     display_order:Math.max(0,Number($("displayOrder").value || 0)),
     active:$("active").checked,
     tiers,
@@ -1212,7 +1195,6 @@ async function newProduct(){
       slug,
       name:name.trim(),
       stock:0,
-      restock:"",
       tiers:[{min:1,price:0}],
       images:[],
       active:false,
