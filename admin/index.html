@@ -30,7 +30,7 @@ body{
   background:var(--bg);
   color:var(--text);
 }
-button,input{font:inherit}
+button,input,select{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
 
@@ -65,7 +65,8 @@ label{
   font-weight:650;
   margin:12px 0 6px;
 }
-input{
+input,
+select{
   width:100%;
   border:1px solid #d4d9df;
   border-radius:9px;
@@ -1162,6 +1163,7 @@ async function saveProduct(){
   const payload = {
     name,
     stock:Math.max(0,Number($("stock").value || 0)),
+    restock:$("restock").value,
     display_order:Math.max(0,Number($("displayOrder").value || 0)),
     active:$("active").checked,
     tiers,
