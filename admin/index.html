@@ -74,7 +74,8 @@ select{
   background:#fff;
   outline:none;
 }
-input:focus{
+input:focus,
+select:focus{
   border-color:#9bbcff;
   box-shadow:0 0 0 3px #eef4ff;
 }
@@ -679,10 +680,9 @@ input:focus{
                   <button type="button" onclick="changeStock(1)">+</button>
                 </div>
               </div>
-              
+
               <div class="field">
                 <label>Próxima disponibilidad</label>
-              
                 <select id="restock">
                   <option value="">Sin información</option>
                   <option value="Disponible nuevamente en aprox. 1 semana">1 semana</option>
@@ -692,7 +692,7 @@ input:focus{
                   <option value="Próximamente">Próximamente</option>
                 </select>
               </div>
-              
+
               <div class="field">
                 <label>Orden en la página</label>
                 <input id="displayOrder" type="number" min="0" value="0">
@@ -949,6 +949,7 @@ function changeStock(step){
 
 $("name").addEventListener("input",updatePreview);
 $("stock").addEventListener("input",updatePreview);
+$("restock").addEventListener("change",updatePreview);
 $("active").addEventListener("change",updatePreview);
 
 function renderTiers(){
@@ -1211,6 +1212,7 @@ async function newProduct(){
       slug,
       name:name.trim(),
       stock:0,
+      restock:"",
       tiers:[{min:1,price:0}],
       images:[],
       active:false,
