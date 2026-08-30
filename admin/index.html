@@ -678,7 +678,20 @@ input:focus{
                   <button type="button" onclick="changeStock(1)">+</button>
                 </div>
               </div>
-
+              
+              <div class="field">
+                <label>Próxima disponibilidad</label>
+              
+                <select id="restock">
+                  <option value="">Sin información</option>
+                  <option value="Disponible nuevamente en aprox. 1 semana">1 semana</option>
+                  <option value="Disponible nuevamente en aprox. 2 semanas">2 semanas</option>
+                  <option value="Disponible nuevamente en aprox. 3 semanas">3 semanas</option>
+                  <option value="Disponible nuevamente en aprox. 4 semanas">4 semanas</option>
+                  <option value="Próximamente">Próximamente</option>
+                </select>
+              </div>
+              
               <div class="field">
                 <label>Orden en la página</label>
                 <input id="displayOrder" type="number" min="0" value="0">
