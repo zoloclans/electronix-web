@@ -33,6 +33,50 @@ main{max-width:1180px;margin:auto;padding:22px 20px 36px}
 .stock-ok{background:var(--green-soft);color:var(--green)}
 .stock-low{background:#fff5dd;color:#9a6700}
 .stock-out{background:#fdecec;color:var(--red)}
+
+/* Mensaje general: "Disponible nuevamente en aprox..." */
+.restock-message{
+  margin-top:8px;
+  font-size:12px;
+  line-height:1.35;
+  color:#4f5661;
+}
+
+/* Fechas exactas de próximas llegadas */
+.restock-schedule{
+  margin-top:9px;
+  padding:9px 10px;
+  background:#fafbfc;
+  border:1px solid #e5e8ec;
+  border-radius:8px;
+}
+.restock-schedule-title{
+  margin-bottom:5px;
+  font-size:10px;
+  font-weight:750;
+  text-transform:uppercase;
+  letter-spacing:.35px;
+  color:#59616c;
+}
+.restock-schedule-row{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:8px;
+  padding:3px 0;
+  font-size:10.5px;
+  line-height:1.3;
+}
+.restock-schedule-row strong{
+  color:#2b3036;
+  font-weight:700;
+  white-space:nowrap;
+}
+.restock-schedule-row span{
+  color:#68707b;
+  text-align:right;
+}
+
 .price-row{margin-top:12px;padding-top:11px;border-top:1px solid #eceff1;display:flex;align-items:flex-end;justify-content:flex-start;gap:10px}
 .precio{font-size:24px;font-weight:720;letter-spacing:-.3px}
 .unit-label{font-size:10px;color:#7b8189;margin-top:2px}
@@ -80,5 +124,6 @@ footer{margin-top:30px;background:#fff;border-top:1px solid var(--line);padding:
   .productos{grid-template-columns:1fr;gap:12px}.foto{height:240px}.info{padding:13px}.nombre{font-size:15px}.stock-badge{font-size:11px;padding:6px 8px}
   .precio{font-size:23px}.qty{grid-template-columns:36px 48px 36px;height:38px}.qty button{font-size:18px}.qty input{font-size:12px}
   .tier-now{font-size:10px}.tier-now b{font-size:11px}.tier{padding:7px 2px;font-size:9px}.tier b{font-size:10px}.btn{padding:10px 6px;font-size:11px}
+  .restock-schedule-row{font-size:10px}
   footer{padding:14px 10px;font-size:9.5px}.gallery{padding:7px}.gallery-box{width:100%}.gallery-main{max-height:70vh}.gallery-nav{width:36px;height:36px}
 }
