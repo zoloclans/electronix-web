@@ -692,6 +692,26 @@ select:focus{
                   <option value="Próximamente">Próximamente</option>
                 </select>
               </div>
+              
+              <div class="field full">
+                <label>Fechas de próximo stock</label>
+            
+                <div id="restockScheduleEditor"></div>
+              
+                <button
+                  type="button"
+                  class="btn blue"
+                  style="margin-top:8px"
+                  onclick="addRestockSchedule()"
+                >
+                  + Agregar llegada
+                </button>
+              
+                <div class="msg">
+                  Máximo 3 próximas llegadas.
+                </div>
+            </div>
+
 
               <div class="field">
                 <label>Orden en la página</label>
@@ -799,6 +819,13 @@ let products = [];
 let selected = null;
 let draftTiers = [];
 let draftImages = [];
+let draftRestockSchedule = [];
+
+draftRestockSchedule = Array.isArray(selected.restock_schedule)
+  ? JSON.parse(JSON.stringify(selected.restock_schedule))
+  : [];
+
+  
 
 const $ = id => document.getElementById(id);
 
@@ -925,6 +952,10 @@ function selectProduct(id){
     ? [...selected.images]
     : [];
 
+  draftRestockSchedule = Array.isArray(selected.restock_schedule)
+    ? JSON.parse(JSON.stringify(selected.restock_schedule))
+    : [];
+
   $("blankView").classList.add("hidden");
   $("editorView").classList.remove("hidden");
 
@@ -937,8 +968,64 @@ function selectProduct(id){
 
   renderTiers();
   renderImages();
+  renderRestockSchedule();
   renderProductList();
   updatePreview();
+}
+
+function renderRestockSchedule(){
+  const container = $("restockScheduleEditor");
+
+  container.innerHTML = draftRestockSchedule.map((item,i)=>`
+    <div class="tier-row">
+
+      <div>
+        <label>Unidades</label>
+        <input
+          type="number"
+          min="1"
+          value="${Number(item.qty || 1)}"
+          oninput="draftRestockSchedule[${i}].qty=Number(this.value)"
+        >
+      </div>
+
+      <div>
+        <label>Fecha de llegada</label>
+        <input
+          type="date"
+          value="${item.date || ""}"
+          oninput="draftRestockSchedule[${i}].date=this.value"
+        >
+      </div>
+
+      <button
+        type="button"
+        class="remove-tier"
+        onclick="removeRestockSchedule(${i})"
+        title="Eliminar llegada"
+      >×</button>
+
+    </div>
+  `).join("");
+}
+
+function addRestockSchedule(){
+  if(draftRestockSchedule.length >= 3){
+    alert("Puedes registrar como máximo 3 próximas llegadas.");
+    return;
+  }
+
+  draftRestockSchedule.push({
+    qty:1,
+    date:""
+  });
+
+  renderRestockSchedule();
+}
+
+function removeRestockSchedule(i){
+  draftRestockSchedule.splice(i,1);
+  renderRestockSchedule();
 }
 
 function changeStock(step){
@@ -1165,6 +1252,9 @@ async function saveProduct(){
     name,
     stock:Math.max(0,Number($("stock").value || 0)),
     restock:$("restock").value,
+    restock_schedule:draftRestockSchedule
+      .filter(x => Number(x.qty) > 0 && x.date)
+      .slice(0,3),
     display_order:Math.max(0,Number($("displayOrder").value || 0)),
     active:$("active").checked,
     tiers,
@@ -1213,6 +1303,7 @@ async function newProduct(){
       name:name.trim(),
       stock:0,
       restock:"",
+      restock_schedule:[],
       tiers:[{min:1,price:0}],
       images:[],
       active:false,
