@@ -821,10 +821,6 @@ let draftTiers = [];
 let draftImages = [];
 let draftRestockSchedule = [];
 
-draftRestockSchedule = Array.isArray(selected.restock_schedule)
-  ? JSON.parse(JSON.stringify(selected.restock_schedule))
-  : [];
-
   
 
 const $ = id => document.getElementById(id);
