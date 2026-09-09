@@ -43,10 +43,23 @@ const money = v => "S/ " + Number(v).toFixed(2);
 function normalizeProduct(p){
   const tiers = Array.isArray(p.tiers) ? p.tiers : [];
   const images = Array.isArray(p.images) ? p.images : [];
+  const restockSchedule = Array.isArray(p.restock_schedule) ? p.restock_schedule : [];
+
   return {
     ...p,
     stock:Number(p.stock || 0),
     restock:String(p.restock || "").trim(),
+
+    // Hasta 3 próximas llegadas guardadas desde el panel Admin.
+    restock_schedule:restockSchedule
+      .map(item=>({
+        qty:Number(item?.qty || 0),
+        date:String(item?.date || "").trim()
+      }))
+      .filter(item=>item.qty > 0 && item.date)
+      .sort((a,b)=>a.date.localeCompare(b.date))
+      .slice(0,3),
+
     tiers:tiers.map(t=>({min:Number(t.min),price:Number(t.price)})).sort((a,b)=>a.min-b.min),
     images
   };
@@ -105,6 +118,51 @@ function restockText(product){
   return `<div class="restock-message">📦 ${product.restock}</div>`;
 }
 
+function formatRestockDate(dateString){
+  if(!dateString) return "";
+
+  // Se separa manualmente para evitar que la zona horaria cambie el día.
+  const parts = dateString.split("-").map(Number);
+  if(parts.length !== 3 || parts.some(Number.isNaN)) return dateString;
+
+  const [year,month,day] = parts;
+  const date = new Date(year,month-1,day);
+
+  const weekday = new Intl.DateTimeFormat("es-PE",{
+    weekday:"long"
+  }).format(date);
+
+  const monthName = new Intl.DateTimeFormat("es-PE",{
+    month:"long"
+  }).format(date);
+
+  const weekdayCapitalized =
+    weekday.charAt(0).toUpperCase() + weekday.slice(1);
+
+  return `${weekdayCapitalized} ${String(day).padStart(2,"0")} de ${monthName}`;
+}
+
+function restockScheduleText(product){
+  const schedule = Array.isArray(product.restock_schedule)
+    ? product.restock_schedule
+    : [];
+
+  if(!schedule.length) return "";
+
+  return `
+    <div class="restock-schedule">
+      <div class="restock-schedule-title">Próximo stock</div>
+
+      ${schedule.map(item=>`
+        <div class="restock-schedule-row">
+          <strong>${item.qty} ${item.qty===1 ? "unidad" : "unidades"}</strong>
+          <span>${formatRestockDate(item.date)}</span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
 function mainImage(product){
   return product.images?.[0] || placeholder(product.name);
 }
@@ -128,6 +186,7 @@ function renderProducts(){
         </div>
 
         ${restockText(product)}
+        ${restockScheduleText(product)}
 
         <div class="price-row">
           <div>
